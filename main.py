@@ -24,7 +24,6 @@ def residential(dayu,peaku,nightu,daynum,SM,fam):
         print("Daytime Usage",dayu)
         print("Peaktime Usage",peaku)
         print("Nighttime Usage",nightu)
-
         print("total usage kwh",totalu)
         print("total usage TL without tax",Stotalufee)
         print("ECT is",Stotalufee*OECT,"VAT is",Stotalufee*RFAVAT)
