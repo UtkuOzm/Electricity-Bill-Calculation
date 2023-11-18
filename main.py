@@ -6,7 +6,26 @@ INIGHTFEE,PNIGHTFEE,RNIGHTFEE,ANIGHTFEE=162.5171,148.1941,41.7225,77.1882
 IUNITFEE,PUNITFEE,RUNITFEE,FUNITFEE,AUNITFEE,LUNITFEE=64.7998,87.8175,85.883,58.2521,72.1579,84.1099
 IECT,OECT,RFAVAT,OVAT=0.01,0.05,0.1,0.2
 def industry(dayu,peaku,nightu,daynum,SM):
-    print("Yavaş kardeş daha yazmadık")
+    totalu = dayu+peaku+nightu
+    Stotalufee = totalu*ISINGLEFEE+totalu*IUNITFEE
+    Mtotalufee = dayu*IDAYFEE+peaku*IPEAKFEE+nightu*INIGHTFEE
+    if SM == 'S':
+        print("Daytime Usage",dayu)
+        print("Peaktime Usage",peaku)
+        print("Nighttime Usage",nightu)
+        print("Total Usage kwh",totalu)
+        print("Total usage TL without tax",Stotalufee)
+        print("ECT is",Stotalufee*IECT,"VAT is",Stotalufee*OVAT)
+        print("Bill is",Stotalufee*IECT*OVAT)
+    
+    else:
+        print("Daytime Usage",dayu)
+        print("Peaktime Usage",peaku)
+        print("Nighttime Usage",nightu)
+        print("Total Usage kwh",totalu)
+        print("Total usage TL without tax",Mtotalufee)
+        print("ECT is",Mtotalufee*IECT,"VAT is",Mtotalufee*OVAT)
+        print("Bill is",Mtotalufee*IECT*OVAT)    
 def public(dayu,peaku,nightu,daynum,SM):
     print("Yavaş kardeş daha yazmadık")
 def residential(dayu,peaku,nightu,daynum,SM,fam):
