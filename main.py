@@ -6,7 +6,7 @@ INIGHTFEE,PNIGHTFEE,RNIGHTFEE,ANIGHTFEE=162.5171,148.1941,41.7225,77.1882
 IUNITFEE,PUNITFEE,RUNITFEE,FUNITFEE,AUNITFEE,LUNITFEE=64.7998,87.8175,85.883,58.2521,72.1579,84.1099
 IECT,OECT,RFAVAT,OVAT=1.01,1.05,1.1,1.2
 def industry():
-    print("Yavaş kardeş daha yazmadık")
+    print("Yavaş kardeş daha yazmadık")sadadsdsa
 def public():
     print("Yavaş kardeş daha yazmadık")
 def residential(fam):
