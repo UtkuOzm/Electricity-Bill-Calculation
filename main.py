@@ -25,9 +25,9 @@ def industry(dayu, peaku, nightu, daynum, SM):
         print("Bill is", Sbill)
         print("Change type diffrence is", Sbill - Mbill)
         if Sbill > Mbill:
-            advantage = True
-        else:
             advantage = False
+        else:
+            advantage = True
         return totalu, Sbill, totalu / daynum, ECT, VAT, advantage
     else:
         ECT = (Mtotalufee * IECT) / 100
@@ -101,7 +101,7 @@ def residential(dayu, peaku, nightu, daynum, SM, fam):
             Stotalufee = totalu * RLOWTAR + totalu * RUNITFEE
         else:
             Stotalufee = lowlimit * RLOWTAR + (totalu - lowlimit) * RHIGHTAR + totalu * RUNITFEE
-        Mtotalufee = dayu * RDAYFEE + peaku * RPEAKFEE + nightu * RNIGHTFEE + totalu * RUNITFEE
+    Mtotalufee = dayu * RDAYFEE + peaku * RPEAKFEE + nightu * RNIGHTFEE + totalu * RUNITFEE
     Sbill=(Stotalufee * (1+OECT) * (1+RFAVAT))/100
     Mbill=(Mtotalufee * (1+OECT) * (1+RFAVAT))/100
     if fam or SM == "S":
@@ -114,13 +114,14 @@ def residential(dayu, peaku, nightu, daynum, SM, fam):
         print("total usage TL without tax", Stotalufee)
         print("ECT is", ECT, "VAT is", VAT)
         print("Bill is", Sbill)
-
         if SM == "S":
             if Sbill > Mbill:
-                advantage = True
-            else:
                 advantage = False
+            else:
+                advantage = True
             print("Change type diffrence is", Sbill - Mbill)
+            return totalu, Sbill, totalu / daynum, ECT, VAT, advantage
+        return totalu, Sbill, totalu / daynum, ECT, VAT
     else:
         ECT = Mtotalufee * OECT / 100
         VAT = Mtotalufee * RFAVAT / 100
@@ -132,7 +133,11 @@ def residential(dayu, peaku, nightu, daynum, SM, fam):
         print("ECT is", ECT, "VAT is", VAT)
         print("Bill is", Mbill)
         print("Change type diffrence is", Sbill - Mbill)
-        return totalu, Mbill, totalu / daynum
+        if Sbill > Mbill:
+            advantage = True
+        else:
+            advantage = False
+        return totalu, Mbill, totalu / daynum, ECT, VAT, advantage
 
 
 def agricultural(dayu, peaku, nightu, daynum, SM):
@@ -178,7 +183,7 @@ def agricultural(dayu, peaku, nightu, daynum, SM):
 def lightning(dayu, peaku, nightu, daynum):
     totalu = dayu + peaku + nightu
     Stotalufee = totalu * LSINGLEFEE + totalu * LUNITFEE
-    ECT = Stotalufee * IECT / 100
+    ECT = Stotalufee * OECT / 100
     VAT = Stotalufee * OVAT / 100
     Sbill = ((Stotalufee / 100) * (1 + ECT) * (1 + VAT))
     print("Daytime Usage", dayu)
@@ -202,55 +207,146 @@ def singmulti():
 
 
 def reader():
-    preday = int(input())
-    curday = int(input())
-    prepeak = int(input())
-    curpeak = int(input())
-    prenight = int(input())
-    curnight = int(input())
-    daynumber = int(input())
-    totalamoyear = int(input())
-    if totalamoyear > 1000:
+    preday = int(input("preday"))
+    curday = int(input("curday"))
+    prepeak = int(input("prepeak"))
+    curpeak = int(input("curpeak"))
+    prenight = int(input("prenight"))
+    curnight = int(input("curnight"))
+    daynumber = int(input("daynumber"))
+    totalamoyear = int(input("totalamo year"))
+    if totalamoyear+curday - preday+ curpeak - prepeak+curnight - prenight > 1000:
         freecons = True
     else:
         freecons = False
     return curday - preday, curpeak - prepeak, curnight - prenight, daynumber, freecons
 
-
+def consumerdata(ctype,cons,total,kwh):
+    print(ctype,"number is",cons)
+    print(ctype,"percentage of all consumers",cons/total*100)
+    print(ctype,"total kwh usage is",kwh)
+    print(ctype,"average kwh usage is",kwh/cons)
 def main():
     indcons, rezcons, agricons, lightcons = 0, 0, 0, 0
     pubscons,pubmcons=0,0
-    totalcons = indcons + rezcons + agricons + lightcons + pubscons + pubmcons
+    tpubcons=0
+    frezcons=0
     indkwh, pubkwh, rezkwh, agrikwh, lightkwh = 0, 0, 0, 0, 0
-    totalkwh=indkwh+pubkwh+rezkwh+agrikwh+lightkwh
     freenum = 0
     maxrezconsno,maxotherconsno=0,0
     maxrezusage,maxotherusage=0,0
     maxrezbill,maxotherbill=0,0
-    adv,disadv=0,0
+    maxrezave,maxotherave=0,0
+    adv=0
     pubdays=0
-    totalect,totalvat=0,0
+    totalect,totalvat,totalbill=0,0,0
     while True:
         consno = int(input("Please enter the consumer no"))
         if consno == 0:
+            totalcons = indcons + rezcons + agricons + lightcons + tpubcons
+            totalkwh = indkwh + pubkwh + rezkwh + agrikwh + lightkwh
+            consumerdata("Industry",indcons,totalcons,indkwh)
+            consumerdata("Public and Private Services Sector and Other", tpubcons, totalcons, pubkwh)
+            consumerdata("Residential", rezcons, totalcons, rezkwh)
+            consumerdata("Agricultural Activities", agricons, totalcons, agrikwh)
+            consumerdata("Lightning", lightcons, totalcons, lightkwh)
+            print(pubscons,"of Public and Private Services Sector and Other consumers preferred single time")
+            print(pubmcons, "of Public and Private Services Sector and Other consumers preferred multi time")
+            print(pubscons/tpubcons*100, "% percent of Public and Private Services Sector and Other consumers preferred single time")
+            print(pubmcons / tpubcons * 100,"% percent of Public and Private Services Sector and Other consumers preferred multi time")
+            print("Public and Private Services Sector and Other consumers consumed an average",pubkwh/pubdays,"kWh per day")
+            #Başkan buraya free cons muhabbeti gelecek ama yanlış anlatılmış pdfte hocaya soracağız
+            print("Max rezidans average consumption consumer is",maxrezconsno,"consumed average of a day is",maxrezave,"bill is",maxrezbill)
+            print("Max other bill consuemr no is",maxotherconsno,"bill is ",maxotherbill,"max average is",maxotherave)
+            print("GDZ gained",totalbill-totalvat-totalect,"The municipality gained",totalect,"The state gained",totalvat)
+            print("Advantage gainer is",adv/(totalcons-lightcons-frezcons)*100)
             break
         constype = input("Please enter the consumer type")
-        dayu, peaku, nightu, daynum, freecons = reader()
+        dayu, peaku, nightu, daynum,freecons= reader()
         if constype == "I" or constype == "ı":
             SMtype = singmulti()
-            industry(dayu, peaku, nightu, daynum, SMtype)
+            usage,bill,average,nowect,nowvat,nowadv=industry(dayu, peaku, nightu, daynum, SMtype)
+            indcons+=1
+            indkwh+=usage
+            totalect+=nowect
+            totalvat+=nowvat
+            totalbill+=bill
+            if usage>1000 or bill>100000:
+                freenum+=1
+            if bill>maxotherbill:
+                maxotherbill=bill
+                maxotherusage=usage
+                maxotherconsno=consno
+                maxotherave=average
+            if nowadv:
+                adv+=1
         elif constype == "P" or constype == "p":
             SMtype = singmulti()
-            public(dayu, peaku, nightu, daynum, SMtype)
+            usage,bill,average,nowect,nowvat,nowadv=public(dayu, peaku, nightu, daynum, SMtype)
+            if SMtype=="S":
+                pubscons+=1
+            else:
+                pubmcons+=0
+            pubkwh+=usage
+            pubdays+=daynum
+            totalect += nowect
+            totalvat += nowvat
+            totalbill+=bill
+            if bill>maxotherbill:
+                maxotherbill=bill
+                maxotherusage=usage
+                maxotherconsno=consno
+                maxotherave=average
+            if nowadv:
+                adv+=1
         elif constype == "R" or constype == "r":
             family = input("Are you Family veterans")
             if family == "Y" or family == "y":
-                residential(dayu, peaku, nightu, daynum, SMtype, True)
+                usage,bill,average,nowect,nowvat=residential(dayu, peaku, nightu, daynum, SMtype, True)
+                frezcons+=1
             elif family == "N" or family == "n":
                 SMtype = singmulti()
-                residential(dayu, peaku, nightu, daynum, SMtype, False)
+                usage,bill,average,nowect,nowvat,nowadv=residential(dayu, peaku, nightu, daynum, SMtype, False)
+                if nowadv:
+                    adv += 1
+            rezcons+=1
+            rezkwh+=usage
+            totalect += nowect
+            totalvat += nowvat
+            totalbill+=bill
+            if average>maxrezave:
+                maxrezbill=bill
+                maxrezusage=usage
+                maxrezconsno=maxrezconsno
+                maxrezave=average
         elif constype == "A" or constype == "a":
             SMtype = singmulti()
-            agricultural(dayu, peaku, nightu, daynum, SMtype)
+            usage,bill,average,nowect,nowvat,nowadv=agricultural(dayu, peaku, nightu, daynum, SMtype)
+            totalect += nowect
+            totalvat += nowvat
+            totalbill+=bill
+            agricons+=1
+            agrikwh+=usage
+            if bill>maxotherbill:
+                maxotherbill=bill
+                maxotherusage=usage
+                maxotherconsno=consno
+                maxotherave=average
+            if nowadv:
+                adv+=1
         elif constype == "L" or constype == "l":
-            lightning(dayu, peaku, nightu, daynum)
+            usage,bill,average,nowect,nowvat=lightning(dayu, peaku, nightu, daynum)
+            lightcons+=1
+            lightkwh+=usage
+            totalect += nowect
+            totalvat += nowvat
+            totalbill+=bill
+            if bill>maxotherbill:
+                maxotherbill=bill
+                maxotherusage=usage
+                maxotherconsno=consno
+                maxotherave=average
+        if freecons==True:
+            freenum+=1
+            print("Consumer is Free")
+main()
