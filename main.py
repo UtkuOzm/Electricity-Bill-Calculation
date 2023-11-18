@@ -4,13 +4,41 @@ IDAYFEE,PDAYFEE,RDAYFEE,ADAYFEE=309.1833,285.8616,115.7700,170.4822
 IPEAKFEE,PPEAKFEE,RPEAKFEE,APEAKFEE=490.9037,458.8843,208.3645,280.0325
 INIGHTFEE,PNIGHTFEE,RNIGHTFEE,ANIGHTFEE=162.5171,148.1941,41.7225,77.1882
 IUNITFEE,PUNITFEE,RUNITFEE,FUNITFEE,AUNITFEE,LUNITFEE=64.7998,87.8175,85.883,58.2521,72.1579,84.1099
-IECT,OECT,RFAVAT,OVAT=1.01,1.05,1.1,1.2
+IECT,OECT,RFAVAT,OVAT=0.01,0.05,0.1,0.2
 def industry(dayu,peaku,nightu,daynum,SM):
     print("Yavaş kardeş daha yazmadık")
 def public(dayu,peaku,nightu,daynum,SM):
     print("Yavaş kardeş daha yazmadık")
 def residential(dayu,peaku,nightu,daynum,SM,fam):
-    print("Yavaş kardeş daha yazmadık")
+    totalu=dayu+peaku+nightu
+    lowlimit=daynum*8
+    if fam:
+        Stotalufee=totalu*FSINGLEFEE+totalu*FUNITFEE
+    else:
+        if totalu<=lowlimit:
+            Stotalufee=totalu*RLOWTAR+totalu*RUNITFEE
+        else:
+            Stotalufee=lowlimit*RLOWTAR+(totalu-lowlimit)*RHIGHTAR+totalu*RUNITFEE
+        Mtotalufee=dayu*RDAYFEE+peaku*RPEAKFEE+nightu*RNIGHTFEE+totalu*RUNITFEE
+    if fam or SM=="S":
+        print("Daytime Usage",dayu)
+        print("Peaktime Usage",peaku)
+        print("Nighttime Usage",nightu)
+        print("total usage kwh",totalu)
+        print("total usage TL without tax",Stotalufee)
+        print("ECT is",Stotalufee*OECT,"VAT is",Stotalufee*RFAVAT)
+        print("Bill is",Stotalufee*OECT*RFAVAT)
+        if SM=="S":
+            print("Change type diffrence is",Stotalufee-Mtotalufee)
+    else:
+        print("Daytime Usage",dayu)
+        print("Peaktime Usage",peaku)
+        print("Nighttime Usage",nightu)
+        print("total usage kwh",totalu)
+        print("total usage TL without tax",Mtotalufee)
+        print("ECT is",Mtotalufee*OECT,"VAT is",Mtotalufee*RFAVAT)
+        print("Bill is",Mtotalufee*OECT*RFAVAT)
+        print("Change type diffrence is", Mtotalufee - Stotalufee)
 def agricultural(dayu,peaku,nightu,daynum,SM):
     print("Yavaş kardeş daha yazmadık")
 def lightning(dayu,peaku,nightu,daynum):
