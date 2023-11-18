@@ -28,7 +28,7 @@ def industry(dayu, peaku, nightu, daynum, SM):
             advantage = True
         else:
             advantage = False        
-        return totalu,Sbill,totalu/daynum,ECT,VAT
+        return totalu,Sbill,totalu/daynum,ECT,VAT,advantage
     else:
         print("Daytime Usage", dayu)
         print("Peaktime Usage", peaku)
@@ -42,7 +42,7 @@ def industry(dayu, peaku, nightu, daynum, SM):
             advantage = True
         else:
             advantage = False        
-        return totalu,Mbill,totalu/daynum
+        return totalu,Mbill,totalu/daynum,ECT,VAT,advantage
     
 def public(dayu, peaku, nightu, daynum, SM):
     totalu = dayu + peaku + nightu
@@ -69,7 +69,7 @@ def public(dayu, peaku, nightu, daynum, SM):
             advantage = True
         else:
             advantage = False        
-        return totalu,Sbill,totalu/daynum
+        return totalu,Sbill,totalu/daynum,ECT,VAT,advantage
     else:
         print("Daytime Usage", dayu)
         print("Peaktime Usage", peaku)
@@ -83,7 +83,7 @@ def public(dayu, peaku, nightu, daynum, SM):
             advantage = True
         else:
             advantage = False        
-        return totalu,Mbill,totalu/daynum
+        return totalu,Mbill,totalu/daynum,ECT,VAT,advantage
 def residential(dayu, peaku, nightu, daynum, SM, fam):
     totalu = dayu + peaku + nightu
     lowlimit = daynum * 8
@@ -141,7 +141,7 @@ def agricultural(dayu, peaku, nightu, daynum, SM):
             advantage = True
         else:
             advantage = False        
-        return totalu,Sbill,totalu/daynum,ECT,VAT
+        return totalu,Sbill,totalu/daynum,ECT,VAT,advantage
     else:
         print("Daytime Usage", dayu)
         print("Peaktime Usage", peaku)
@@ -155,7 +155,7 @@ def agricultural(dayu, peaku, nightu, daynum, SM):
             advantage = True
         else:
             advantage = False        
-        return totalu,Mbill,totalu/daynum
+        return totalu,Mbill,totalu/daynum,ECT,VAT,advantage
 def lightning(dayu, peaku, nightu, daynum):
     totalu = dayu + peaku + nightu
     Stotalufee = totalu * LSINGLEFEE + totalu * LUNITFEE
