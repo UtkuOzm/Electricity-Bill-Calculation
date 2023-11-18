@@ -13,8 +13,8 @@ def industry(dayu, peaku, nightu, daynum, SM):
     Mtotalufee = dayu * IDAYFEE + peaku * IPEAKFEE + nightu * INIGHTFEE + totalu * IUNITFEE
     ECT=(Stotalufee * IECT)/100
     VAT=(Sbill-(Stotalufee * (1+OVAT)))/100
-    Sbill=((Stotalufee/100) * (1+IECT) * (1+OVAT))/100
-    Mbill=((Mtotalufee/100) * (1+IECT) * (1+OVAT))/100
+    Sbill=((Stotalufee/100) * (1+IECT) * (1+OVAT))
+    Mbill=((Mtotalufee/100) * (1+IECT) * (1+OVAT))
     if SM == 'S':
         print("Daytime Usage", dayu)
         print("Peaktime Usage", peaku)
@@ -54,8 +54,8 @@ def public(dayu, peaku, nightu, daynum, SM):
     Mtotalufee = dayu * PDAYFEE + peaku * PPEAKFEE + nightu * PNIGHTFEE + totalu * PUNITFEE
     ECT=(Stotalufee * IECT)/100
     VAT=(Sbill-(Stotalufee * (1+OVAT)))/100
-    Sbill=((Stotalufee/100) * (1+OECT) * (1+OVAT))/100
-    Mbill=((Mtotalufee/100) * (1+OECT) * (1+OVAT))/100
+    Sbill=((Stotalufee/100) * (1+OECT) * (1+OVAT))
+    Mbill=((Mtotalufee/100) * (1+OECT) * (1+OVAT))
     if SM == "S":
         print("Daytime Usage", dayu)
         print("Peaktime Usage", peaku)
@@ -95,8 +95,8 @@ def residential(dayu, peaku, nightu, daynum, SM, fam):
         else:
             Stotalufee = lowlimit * RLOWTAR + (totalu - lowlimit) * RHIGHTAR + totalu * RUNITFEE
         Mtotalufee = dayu * RDAYFEE + peaku * RPEAKFEE + nightu * RNIGHTFEE + totalu * RUNITFEE
-    Sbill=((Stotalufee/100) * (1+OECT) * (1+RFAVAT))/100
-    Mbill=((Mtotalufee/100) * (1+OECT) * (1+RFAVAT))/100
+    Sbill=((Stotalufee/100) * (1+OECT) * (1+RFAVAT))
+    Mbill=((Mtotalufee/100) * (1+OECT) * (1+RFAVAT))
     if fam or SM == "S":
         print("Daytime Usage", dayu)
         print("Peaktime Usage", peaku)
@@ -126,8 +126,8 @@ def agricultural(dayu, peaku, nightu, daynum, SM):
     Mtotalufee = dayu * ADAYFEE + peaku * APEAKFEE + nightu * ANIGHTFEE + totalu * AUNITFEE
     ECT=(Stotalufee * IECT)/100
     VAT=(Sbill-(Stotalufee * (1+OVAT)))/100
-    Sbill=((Stotalufee/100) * (1+OECT) * (1+RFAVAT))/100
-    Mbill=((Mtotalufee/100) * (1+OECT) * (1+RFAVAT))/100
+    Sbill=((Stotalufee/100) * (1+OECT) * (1+RFAVAT))
+    Mbill=((Mtotalufee/100) * (1+OECT) * (1+RFAVAT))
     if SM == 'S':
         print("Daytime Usage", dayu)
         print("Peaktime Usage", peaku)
@@ -159,7 +159,9 @@ def agricultural(dayu, peaku, nightu, daynum, SM):
 def lightning(dayu, peaku, nightu, daynum):
     totalu = dayu + peaku + nightu
     Stotalufee = totalu * LSINGLEFEE + totalu * LUNITFEE
-    Sbill=((Stotalufee/100) * (1+OECT) * (1+OVAT))/100
+    ECT=(Stotalufee * IECT)/100
+    VAT=(Sbill-(Stotalufee * (1+OVAT)))/100    
+    Sbill=((Stotalufee/100) * (1+OECT) * (1+OVAT))
     print("Daytime Usage", dayu)
     print("Peaktime Usage", peaku)
     print("Nighttime Usage", nightu)
@@ -167,7 +169,7 @@ def lightning(dayu, peaku, nightu, daynum):
     print("Total usage TL without tax", Stotalufee)
     print("ECT is", (Stotalufee * OECT) / 100, "VAT is", (Sbill - (Stotalufee * (1 + OECT))) / 100)
     print("Bill is", Sbill)
-    return totalu,Sbill,totalu/daynum
+    return totalu,Sbill,totalu/daynum,ECT,VAT
 
 def singmulti():
     type = input("Single or Multi:")
