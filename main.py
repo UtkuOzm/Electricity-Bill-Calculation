@@ -29,13 +29,32 @@ def industry(dayu, peaku, nightu, daynum, SM):
         print("ECT is", Mtotalufee * IECT, "VAT is", Mtotalufee * OVAT)
         print("Bill is", Mtotalufee * IECT * OVAT)
         print("Change type diffrence is", Stotalufee - Mtotalufee)
-
-
-
 def public(dayu, peaku, nightu, daynum, SM):
-    print("Yavaş kardeş daha yazmadık")
-
-
+    totalu = dayu + peaku + nightu
+    lowlimit = daynum * 30
+    if totalu <= lowlimit:
+        Stotalufee = totalu * RLOWTAR + totalu * RUNITFEE
+    else:
+        Stotalufee = lowlimit * RLOWTAR + (totalu - lowlimit) * RHIGHTAR + totalu * RUNITFEE
+    Mtotalufee = dayu * RDAYFEE + peaku * RPEAKFEE + nightu * RNIGHTFEE + totalu * RUNITFEE
+    if SM == "S":
+        print("Daytime Usage", dayu)
+        print("Peaktime Usage", peaku)
+        print("Nighttime Usage", nightu)
+        print("total usage kwh", totalu)
+        print("total usage TL without tax", Stotalufee)
+        print("ECT is", Stotalufee * OECT, "VAT is", Stotalufee * RFAVAT)
+        print("Bill is", Stotalufee * OECT * RFAVAT)
+        print("Change type diffrence is", Stotalufee - Mtotalufee)
+    else:
+        print("Daytime Usage", dayu)
+        print("Peaktime Usage", peaku)
+        print("Nighttime Usage", nightu)
+        print("total usage kwh", totalu)
+        print("total usage TL without tax", Mtotalufee)
+        print("ECT is", Mtotalufee * OECT, "VAT is", Mtotalufee * RFAVAT)
+        print("Bill is", Mtotalufee * OECT * RFAVAT)
+        print("Change type diffrence is", Stotalufee - Mtotalufee)
 def residential(dayu, peaku, nightu, daynum, SM, fam):
     totalu = dayu + peaku + nightu
     lowlimit = daynum * 8
@@ -65,16 +84,41 @@ def residential(dayu, peaku, nightu, daynum, SM, fam):
         print("total usage TL without tax", Mtotalufee)
         print("ECT is", Mtotalufee * OECT, "VAT is", Mtotalufee * RFAVAT)
         print("Bill is", Mtotalufee * OECT * RFAVAT)
-        print("Change type diffrence is", Mtotalufee - Stotalufee)
+        print("Change type diffrence is", Stotalufee - Mtotalufee)
 
 
 def agricultural(dayu, peaku, nightu, daynum, SM):
-    print("Yavaş kardeş daha yazmadık")
-
-
+    totalu = dayu + peaku + nightu
+    Stotalufee = totalu * ASINGLEFEE + totalu * AUNITFEE
+    Mtotalufee = dayu * ADAYFEE + peaku * APEAKFEE + nightu * ANIGHTFEE + totalu * AUNITFEE
+    if SM == 'S':
+        print("Daytime Usage", dayu)
+        print("Peaktime Usage", peaku)
+        print("Nighttime Usage", nightu)
+        print("Total Usage kwh", totalu)
+        print("Total usage TL without tax", Stotalufee)
+        print("ECT is", Stotalufee * OECT, "VAT is", Stotalufee * RFAVAT)
+        print("Bill is", Stotalufee * OECT * RFAVAT)
+        print("Change type difference is", Stotalufee - Mtotalufee)
+    else:
+        print("Daytime Usage", dayu)
+        print("Peaktime Usage", peaku)
+        print("Nighttime Usage", nightu)
+        print("Total Usage kwh", totalu)
+        print("Total usage TL without tax", Mtotalufee)
+        print("ECT is", Mtotalufee * OECT, "VAT is", Mtotalufee * RFAVAT)
+        print("Bill is", Mtotalufee * OECT * RFAVAT)
+        print("Change type difference is", Stotalufee - Mtotalufee)
 def lightning(dayu, peaku, nightu, daynum):
-    print("Yavaş kardeş daha yazmadık")
-
+    totalu = dayu + peaku + nightu
+    Stotalufee = totalu * ASINGLEFEE + totalu * AUNITFEE
+    print("Daytime Usage", dayu)
+    print("Peaktime Usage", peaku)
+    print("Nighttime Usage", nightu)
+    print("Total Usage kwh", totalu)
+    print("Total usage TL without tax", Stotalufee)
+    print("ECT is", Stotalufee * OECT, "VAT is", Stotalufee * RFAVAT)
+    print("Bill is", Stotalufee * OECT * RFAVAT)
 
 def singmulti():
     type = input("Single or Multi:")
