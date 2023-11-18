@@ -156,13 +156,15 @@ def reader():
 
 
 def main():
+    totalcons,indcons,pubcons,rezcons,agricons=0,0,0,0,0
+    indkwh, pubkwh, rezkwh, agrikwh=0,0,0,0
+    freenum=0
     while True:
         consno = int(input("Please enter the consumer no"))
         if consno == 0:
             break
         constype = input("Please enter the consumer type")
         dayu, peaku, nightu, daynum, freecons = reader()
-
         if constype == "I" or constype == "ı":
             SMtype = singmulti()
             industry(dayu, peaku, nightu, daynum, SMtype)
