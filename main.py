@@ -22,6 +22,10 @@ def industry(dayu, peaku, nightu, daynum, SM):
         print("ECT is", (Stotalufee * IECT)/100, "VAT is", (Sbill-(Stotalufee * (1+IECT)))/100)
         print("Bill is", Sbill)
         print("Change type diffrence is", Sbill - Mbill)
+        if Sbill>Mbill:
+            advantage = True
+        else:
+            advantage = False        
         return totalu,Sbill,totalu/daynum
     else:
         print("Daytime Usage", dayu)
@@ -32,6 +36,10 @@ def industry(dayu, peaku, nightu, daynum, SM):
         print("ECT is", (Mtotalufee * IECT)/100, "VAT is", (Mbill-(Mtotalufee * (1+IECT)))/100)
         print("Bill is", Mbill)
         print("Change type diffrence is", Sbill - Mbill)
+        if Sbill>Mbill:
+            advantage = True
+        else:
+            advantage = False        
         return totalu,Mbill,totalu/daynum
     
 def public(dayu, peaku, nightu, daynum, SM):
@@ -53,6 +61,10 @@ def public(dayu, peaku, nightu, daynum, SM):
         print("ECT is", (Stotalufee * OECT)/100, "VAT is", (Sbill-(Stotalufee * (1+OECT)))/100)
         print("Bill is", Sbill)
         print("Change type diffrence is", Sbill - Mbill)
+        if Sbill>Mbill:
+            advantage = True
+        else:
+            advantage = False        
         return totalu,Sbill,totalu/daynum
     else:
         print("Daytime Usage", dayu)
@@ -63,6 +75,10 @@ def public(dayu, peaku, nightu, daynum, SM):
         print("ECT is", (Mtotalufee * OECT)/100, "VAT is", (Mbill-(Mtotalufee * (1+OECT)))/100)
         print("Bill is", Mbill)
         print("Change type diffrence is", Sbill - Mbill)
+        if Sbill>Mbill:
+            advantage = True
+        else:
+            advantage = False        
         return totalu,Mbill,totalu/daynum
 def residential(dayu, peaku, nightu, daynum, SM, fam):
     totalu = dayu + peaku + nightu
@@ -88,7 +104,6 @@ def residential(dayu, peaku, nightu, daynum, SM, fam):
         
         if SM == "S":
             print("Change type diffrence is", Sbill - Mbill)
-            return totalu,Sbill,totalu/daynum
     else:
         print("Daytime Usage", dayu)
         print("Peaktime Usage", peaku)
@@ -116,6 +131,10 @@ def agricultural(dayu, peaku, nightu, daynum, SM):
         print("ECT is", (Stotalufee * OECT)/100, "VAT is", (Sbill-(Stotalufee * (1+OECT)))/100)
         print("Bill is", Sbill)
         print("Change type diffrence is", Sbill - Mbill)
+        if Sbill>Mbill:
+            advantage = True
+        else:
+            advantage = False        
         return totalu,Sbill,totalu/daynum
     else:
         print("Daytime Usage", dayu)
@@ -126,6 +145,10 @@ def agricultural(dayu, peaku, nightu, daynum, SM):
         print("ECT is", (Mtotalufee * OECT)/100, "VAT is", (Mbill-(Mtotalufee * (1+OECT)))/100)
         print("Bill is", Mbill)
         print("Change type diffrence is", Sbill - Mbill)
+        if Sbill>Mbill:
+            advantage = True
+        else:
+            advantage = False        
         return totalu,Mbill,totalu/daynum
 def lightning(dayu, peaku, nightu, daynum):
     totalu = dayu + peaku + nightu
