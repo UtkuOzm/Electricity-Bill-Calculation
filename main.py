@@ -11,8 +11,10 @@ def industry(dayu, peaku, nightu, daynum, SM):
     totalu = dayu + peaku + nightu
     Stotalufee = totalu * ISINGLEFEE + totalu * IUNITFEE
     Mtotalufee = dayu * IDAYFEE + peaku * IPEAKFEE + nightu * INIGHTFEE + totalu * IUNITFEE
-    Sbill=(Stotalufee * (1+IECT) * (1+OVAT))/100
-    Mbill=(Mtotalufee * (1+IECT) * (1+OVAT))/100
+    ECT=(Stotalufee * IECT)/100
+    VAT=(Sbill-(Stotalufee * (1+OVAT)))/100
+    Sbill=((Stotalufee/100) * (1+IECT) * (1+OVAT))/100
+    Mbill=((Mtotalufee/100) * (1+IECT) * (1+OVAT))/100
     if SM == 'S':
         print("Daytime Usage", dayu)
         print("Peaktime Usage", peaku)
@@ -26,7 +28,7 @@ def industry(dayu, peaku, nightu, daynum, SM):
             advantage = True
         else:
             advantage = False        
-        return totalu,Sbill,totalu/daynum
+        return totalu,Sbill,totalu/daynum,ECT,VAT
     else:
         print("Daytime Usage", dayu)
         print("Peaktime Usage", peaku)
@@ -50,8 +52,10 @@ def public(dayu, peaku, nightu, daynum, SM):
     else:
         Stotalufee = lowlimit * PLOWTAR + (totalu - lowlimit) * PHIGHTAR + totalu * PUNITFEE
     Mtotalufee = dayu * PDAYFEE + peaku * PPEAKFEE + nightu * PNIGHTFEE + totalu * PUNITFEE
-    Sbill=(Stotalufee * (1+OECT) * (1+OVAT))/100
-    Mbill=(Mtotalufee * (1+OECT) * (1+OVAT))/100
+    ECT=(Stotalufee * IECT)/100
+    VAT=(Sbill-(Stotalufee * (1+OVAT)))/100
+    Sbill=((Stotalufee/100) * (1+OECT) * (1+OVAT))/100
+    Mbill=((Mtotalufee/100) * (1+OECT) * (1+OVAT))/100
     if SM == "S":
         print("Daytime Usage", dayu)
         print("Peaktime Usage", peaku)
@@ -91,8 +95,8 @@ def residential(dayu, peaku, nightu, daynum, SM, fam):
         else:
             Stotalufee = lowlimit * RLOWTAR + (totalu - lowlimit) * RHIGHTAR + totalu * RUNITFEE
         Mtotalufee = dayu * RDAYFEE + peaku * RPEAKFEE + nightu * RNIGHTFEE + totalu * RUNITFEE
-    Sbill=(Stotalufee * (1+OECT) * (1+RFAVAT))/100
-    Mbill=(Mtotalufee * (1+OECT) * (1+RFAVAT))/100
+    Sbill=((Stotalufee/100) * (1+OECT) * (1+RFAVAT))/100
+    Mbill=((Mtotalufee/100) * (1+OECT) * (1+RFAVAT))/100
     if fam or SM == "S":
         print("Daytime Usage", dayu)
         print("Peaktime Usage", peaku)
@@ -120,8 +124,10 @@ def agricultural(dayu, peaku, nightu, daynum, SM):
     totalu = dayu + peaku + nightu
     Stotalufee = totalu * ASINGLEFEE + totalu * AUNITFEE
     Mtotalufee = dayu * ADAYFEE + peaku * APEAKFEE + nightu * ANIGHTFEE + totalu * AUNITFEE
-    Sbill=(Stotalufee * (1+OECT) * (1+RFAVAT))/100
-    Mbill=(Mtotalufee * (1+OECT) * (1+RFAVAT))/100
+    ECT=(Stotalufee * IECT)/100
+    VAT=(Sbill-(Stotalufee * (1+OVAT)))/100
+    Sbill=((Stotalufee/100) * (1+OECT) * (1+RFAVAT))/100
+    Mbill=((Mtotalufee/100) * (1+OECT) * (1+RFAVAT))/100
     if SM == 'S':
         print("Daytime Usage", dayu)
         print("Peaktime Usage", peaku)
@@ -135,7 +141,7 @@ def agricultural(dayu, peaku, nightu, daynum, SM):
             advantage = True
         else:
             advantage = False        
-        return totalu,Sbill,totalu/daynum
+        return totalu,Sbill,totalu/daynum,ECT,VAT
     else:
         print("Daytime Usage", dayu)
         print("Peaktime Usage", peaku)
@@ -153,7 +159,7 @@ def agricultural(dayu, peaku, nightu, daynum, SM):
 def lightning(dayu, peaku, nightu, daynum):
     totalu = dayu + peaku + nightu
     Stotalufee = totalu * LSINGLEFEE + totalu * LUNITFEE
-    Sbill=(Stotalufee * (1+OECT) * (1+OVAT))/100
+    Sbill=((Stotalufee/100) * (1+OECT) * (1+OVAT))/100
     print("Daytime Usage", dayu)
     print("Peaktime Usage", peaku)
     print("Nighttime Usage", nightu)
