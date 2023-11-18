@@ -107,6 +107,10 @@ def residential(dayu, peaku, nightu, daynum, SM, fam):
         print("Bill is", Sbill)
         
         if SM == "S":
+            if Sbill>Mbill:
+                advantage = True
+            else:
+                advantage = False            
             print("Change type diffrence is", Sbill - Mbill)
     else:
         print("Daytime Usage", dayu)
