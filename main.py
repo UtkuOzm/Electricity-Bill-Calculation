@@ -31,6 +31,7 @@ def industry(dayu, peaku, nightu, daynum, SM):
         print("Change type diffrence is", Stotalufee - Mtotalufee)
 
 
+
 def public(dayu, peaku, nightu, daynum, SM):
     print("Yavaş kardeş daha yazmadık")
 
