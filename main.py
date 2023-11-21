@@ -4,12 +4,14 @@ istatistikler dahil sonra hocaya sorduğum soruya göre göndeririz kodu
 türkçe biri
 """
 """
-constant isimleri üç parça ilk parçası sektöre ait I industry P public(tam ismini yazarsın başkan)
-R residential A agricultural activities L lightning ikinci parça zamana bağlı 
-day peak single ya da night olarak ayrıldı üçüncü parça fee yada tarriff de ngelen tarr
-vergiler 2 tip olduğu için I industry RFA Residential, Family veterans ve Agricultural kısaltmaları 
-O ise ECT de industry hariç hepsi VAT da ise yukarıda belirtilen RFA hariç sektörler
-vergilerde sektör yanında yazan A ise 1 added anlamına geliyor vergiyi hesaplarken tekrardan 1 eklememek için var
+We wrote the constant names in 3 parts. The first of these 3 parts is the sector names; I = Industry,
+P = Public and Private Services Sector and Other, R = Residential, A = Agricultural Activities, L = Lightning.
+The second part is time dependent constants; DAY = Daytime period, PEAK = Peak period, NIGHT = Night period, 
+SINGLE = Single-time. The third piece consists of the abbreviations FEE and TARR, which we derived from fee and tarriff.
+For there are 2 types of taxes, we put the abbreviations of the sectors in front of the abbreviations when naming the
+taxes (I = Industry, RFA = Residential Family Veterans and Agriculture). The abbreviation 'O = Other' means sectors 
+other than Industry for ECT; For VAT, sectors except RFA. The abbreviation 'A' means '1 added'. We put it in order not 
+to add 1 again when calculating the tax.
 """
 ISINGLEFEE, FSINGLEFEE, ASINGLEFEE, LSINGLEFEE = 305.3828, 6.1590, 165.3096, 259.5835
 PLOWTAR, PHIGHTAR, RLOWTAR, RHIGHTAR = 191.2220, 282.8414, 48.2187, 113.2271
@@ -21,24 +23,23 @@ IECT, OECT, RFAVAT, OVAT = 0.01, 0.05, 0.1, 0.2
 IAECT, OAECT, RFAAVAT, OAVAT = 1.01, 1.05, 1.1, 1.2
 
 """
-Printer fonksiyon her sektördeki tekrar tekrar basılan çıktıların okunulabilirliği arttırması için
-tek fonksiyon altında toplanmasıdır
+The printer function is compressed into a single function to increase the readability of outputs printed repeatedly in each sector.
 """
 def printer(dayu,peaku,nightu,totalu,totalufee,ECT,VAT,bill):
-    print("Daytime Usage", dayu)
-    print("Peaktime Usage", peaku)
-    print("Nighttime Usage", nightu)
-    print("Total Usage kwh", totalu)
-    print("Total usage TL without tax", round(totalufee,2))
-    print("ECT is", round(ECT,2), "VAT is", round(VAT,2))
-    print("Bill is", round(bill,2))
+    print("Daytime period Usage = ", dayu)
+    print("Peak period Usage = ", peaku)
+    print("Night period Usage = ", nightu)
+    print("Total Usage (kWh) = ", totalu)
+    print("Total usage TL without tax = ", round(totalufee,2))
+    print("ECT is = ", round(ECT,2), "VAT is = ", round(VAT,2))
+    print("Bill is = ", round(bill,2))
 
 """
-Alttaki beş fonksiyon her sektör için ayrı fatura hesabı yapılması için tasarlanmıştır.
-hepsinde ortak değişken isimleri kullanılarak okunulabilirlik arttırılmıştır
-kısaltmalar şu şekildedir sondaki u usage baştaki S single time M multi time temsil etmektedir
-totalu total usage dır 
-low limit ise düşük tarife sınırını belirtmektedir
+The five functions below are designed to make separate bill calculations for each sector.
+For readability we used the common variables.
+the abbreviations as follow : 'u' at the end of the variables = usage, at the beginning of
+the variables 'S' = Single time , 'M' = Multi time. 'totalu' = Total usage. 'lowlimit' refers
+to the low tariff limit.
 """
 def industry(dayu, peaku, nightu, daynum, SM):
     totalu = dayu + peaku + nightu
@@ -52,7 +53,7 @@ def industry(dayu, peaku, nightu, daynum, SM):
     if SM == 'S':
         VAT = Sbill-(Stotalufee+SECT+disturbfee)
         printer(dayu,peaku,nightu,totalu,Stotalufee,SECT,VAT,Sbill)
-        print("Change type diffrence is", round(Sbill - Mbill,2))
+        print("Change type diffrence is = ", round(Sbill - Mbill,2))
         if Sbill > Mbill:
             advantage = False
         else:
@@ -61,7 +62,7 @@ def industry(dayu, peaku, nightu, daynum, SM):
     else:
         VAT = Mbill-(Mtotalufee+SECT+disturbfee)
         printer(dayu,peaku,nightu,totalu,Mtotalufee,SECT,VAT,Mbill)
-        print("Change type diffrence is", round(Sbill - Mbill,2))
+        print("Change type diffrence is = ", round(Sbill - Mbill,2))
         if Sbill > Mbill:
             advantage = True
         else:
@@ -85,7 +86,7 @@ def public(dayu, peaku, nightu, daynum, SM):
     if SM == "S":
         VAT = Sbill-(Stotalufee+SECT+disturbfee)
         printer(dayu,peaku,nightu,totalu,Stotalufee,SECT,VAT,Sbill)
-        print("Change type diffrence is", round(Sbill - Mbill,2))
+        print("Change type diffrence is = ", round(Sbill - Mbill,2))
         if Sbill > Mbill:
             advantage = False
         else:
@@ -94,14 +95,14 @@ def public(dayu, peaku, nightu, daynum, SM):
     else:
         VAT = Mbill-(Mtotalufee+SECT+disturbfee)
         printer(dayu,peaku,nightu,totalu,Mtotalufee,MECT,VAT,Mbill)
-        print("Change type diffrence is", round(Sbill - Mbill,2))
+        print("Change type diffrence is = ", round(Sbill - Mbill,2))
         if Sbill > Mbill:
             advantage = True
         else:
             advantage = False
         return totalu, Mbill, totalu / daynum, MECT, VAT, advantage
 
-#fam değişkeni şehit gazi yakını olup olmadığını tutmaktadır
+#The variable 'fam' refers to family of veterans and martrys.
 def residential(dayu, peaku, nightu, daynum, SM, fam):
     totalu = dayu + peaku + nightu
     lowlimit = daynum * 8
@@ -127,13 +128,13 @@ def residential(dayu, peaku, nightu, daynum, SM, fam):
                 advantage = False
             else:
                 advantage = True
-            print("Change type diffrence is", round(Sbill - Mbill,2))
+            print("Change type diffrence is = ", round(Sbill - Mbill,2))
             return totalu, Sbill, totalu / daynum, SECT, VAT, advantage
         return totalu, Sbill, totalu / daynum, SECT, VAT
     else:
         VAT = Mbill-(Mtotalufee+SECT+disturbfee)
         printer(dayu,peaku,nightu,totalu,Mtotalufee,MECT,VAT,Mbill)
-        print("Change type diffrence is", round(Sbill - Mbill,2))
+        print("Change type diffrence is = ", round(Sbill - Mbill,2))
         if Sbill > Mbill:
             advantage = True
         else:
@@ -153,7 +154,7 @@ def agricultural(dayu, peaku, nightu, daynum, SM):
     if SM == 'S':
         VAT = Sbill-(Stotalufee+SECT+disturbfee)
         printer(dayu,peaku,nightu,totalu,Stotalufee,SECT,VAT,Sbill)
-        print("Change type diffrence is", round(Sbill - Mbill,2))
+        print("Change type diffrence is = ", round(Sbill - Mbill,2))
         if Sbill > Mbill:
             advantage = False
         else:
@@ -162,7 +163,7 @@ def agricultural(dayu, peaku, nightu, daynum, SM):
     else:
         VAT = Mbill-(Mtotalufee+SECT+disturbfee)
         printer(dayu,peaku,nightu,totalu,Mtotalufee,MECT,VAT,Mbill)
-        print("Change type diffrence is", round(Sbill - Mbill,2))
+        print("Change type diffrence is = ", round(Sbill - Mbill,2))
         if Sbill > Mbill:
             advantage = True
         else:
@@ -181,12 +182,12 @@ def lightning(dayu, peaku, nightu, daynum):
     return totalu, Sbill, totalu / daynum, ECT, VAT
 
 """
-Single veya multi time seçeneğini seçtirmek için yazılmıştır
+It was written to choose Single-time or Multi-time option.
 """
 def singmulti():
-    type = input("Single or Multi:")
+    type = input("Enter your type (Single or Multi) : ")
     while type not in "SsMm":
-        type = input("Single or Multi:")
+        type = input("Enter your type (Single or Multi) : ")
     if type == "s" or type == "S":
         type = "S"
         return type
@@ -195,94 +196,94 @@ def singmulti():
         return type
 
 """
-Kullanıcıdan inputları almak için yazılmıştır
+It has written to take the inputs from user.
 """
 def reader():
-    preday = int(input("preday"))
+    preday = int(input("Enter the previous day-time period consumption value (kWh) : "))
     while preday <0:
-        preday = int(input("preday"))
-    curday = int(input("curday"))
+        preday = int(input("Enter the previous day-time period consumption value (kWh) : "))
+    curday = int(input("Enter the current day-time period consumption value (kWh) : "))
     while curday<preday:
-        curday = int(input("curday"))
-    prepeak = int(input("prepeak"))
+        curday = int(input("Enter the current day-time period consumption value (kWh) : "))
+    prepeak = int(input("Enter the previous peak period consumption value (kWh) : "))
     while prepeak <0:
-        prepeak = int(input("prepeak"))
-    curpeak = int(input("curpeak"))
+        prepeak = int(input("Enter the previous peak period consumption value (kWh) : "))
+    curpeak = int(input("Enter the current peak period consumption value (kWh) : "))
     while curpeak<prepeak:
-        curpeak = int(input("curpeak"))
-    prenight = int(input("prenight"))
+        curpeak = int(input("Enter the current peak period consumption value (kWh) : "))
+    prenight = int(input("Enter the previous night period consumption value (kWh) : "))
     while prenight <0:
-        prenight = int(input("prenight"))
-    curnight = int(input("curnight"))
+        prenight = int(input("Enter the previous night period consumption value (kWh) : "))
+    curnight = int(input("Enter the current night period consumption value (kWh) : "))
     while curnight<prenight:
-        curnight = int(input("curnight"))
-    daynumber = int(input("daynumber"))
+        curnight = int(input("Enter the current night period consumption value (kWh) : "))
+    daynumber = int(input("Enter the number of days electricity was consumed : "))
     while daynumber<0:
-        daynumber=int(input("Day number"))
-    totalamoyear = int(input("totalamo year"))
+        daynumber=int(input("Enter the number of days electricity was consumed : "))
+    totalamoyear = int(input("Enter total amount of electricity consumed in a year : "))
     while totalamoyear<preday+prenight+prepeak:
-        totalamoyear=int(input("total amount year"))
+        totalamoyear=int(input("Enter total amount of electricity consumed in a year : "))
     if totalamoyear+curday - preday+ curpeak - prepeak+curnight - prenight > 1000:
         freecons = True
     else:
         freecons = False
     return curday - preday, curpeak - prepeak, curnight - prenight, daynumber, freecons,totalamoyear
 """
-istatistk bölümündeki her sektör için olan istatistik kalabalığını azaltmak için yazılmıştır
+The statistics section was written to reduce the crowding of statistics for each sector.
 """
 def consumerdata(ctype,cons,total,kwh):
-    print(ctype,"number is",round(cons,2))
-    print(ctype,"percentage of all consumers",round(cons/total*100,2))
-    print(ctype,"total kwh usage is",round(kwh,2))
-    print(ctype,"average kwh usage is",round(kwh/cons,2))
+    print(ctype,"Number is = ",round(cons,2))
+    print(ctype,"Percentage of all consumers = ",round(cons/total*100,2))
+    print(ctype,"Total kWh usage is = ",round(kwh,2))
+    print(ctype,"Average kWh usage is = ",round(kwh/cons,2))
 def main():
-    indcons, rezcons, agricons, lightcons = 0, 0, 0, 0 #sektördeki consumer sayıları
-    pubscons,pubmcons=0,0 #publicteki single ve multi seçenlerin sayısı
-    frezcons=0 #Şehit gazi yakını sayısı
-    indkwh, pubkwh, rezkwh, agrikwh, lightkwh = 0, 0, 0, 0, 0 #sektörlerin kullandı elektrik miktarı
-    freenum = 0 #Free consumer sayısı
-    maxrezconsno,maxotherconsno=0,0# Max istatistiği istenen rezidasn ve other kullanıcı verileri
+    indcons, rezcons, agricons, lightcons = 0, 0, 0, 0 #Number of consumers in the sector.
+    pubscons,pubmcons=0,0 #Number of people choosing single and multi in Public and Private Services Sector and Other.
+    frezcons=0 #Number of families of martyrs and veterans.
+    indkwh, pubkwh, rezkwh, agrikwh, lightkwh = 0, 0, 0, 0, 0 #Amount of electricity consumed by sectors.
+    freenum = 0 #Number of Free consumers
+    maxrezconsno,maxotherconsno=0,0#Data of Residence and Other users whose maximum statistics are requested.
     maxrezbill,maxotherbill=0,0
     maxrezave,maxotherave=0,0
-    adv=0 #avantaj sağlayan kullanıcı sayısı
-    pubdays=0 #Public kullanıcıların toplam kullandığı gün sayısı
-    totalect,totalvat,totalbill=0,0,0 #toplam fatura bedeli, kdv ve ect verileri
+    adv=0 #Number of taking advantage users.
+    pubdays=0 #Total number of days public users used electricity.
+    totalect,totalvat,totalbill=0,0,0 #Total bill amount, VAT and ECT data.
     while True:
-        consno = int(input("Please enter the consumer no")) #Consumer no inputu
+        consno = int(input("Please enter the consumer no = ")) #Consumer no inputu
         while consno<0:
-            consno = int(input("Please enter the consumer no"))
+            consno = int(input("Please enter the consumer no = "))
         if consno == 0:
             tpubcons = pubscons + pubmcons #toplam public kullanıcı sayısı
             totalcons = indcons + rezcons + agricons + lightcons + tpubcons #toplam consumer sayısı
             totalkwh = indkwh + pubkwh + rezkwh + agrikwh + lightkwh #toplam harcanan kwh sayısı
-            consumerdata("Industry",indcons,totalcons,indkwh)
-            consumerdata("Public and Private Services Sector and Other", tpubcons, totalcons, pubkwh)
-            consumerdata("Residential", rezcons, totalcons, rezkwh)
-            consumerdata("Agricultural Activities", agricons, totalcons, agrikwh)
-            consumerdata("Lightning", lightcons, totalcons, lightkwh)
-            print("Bornova all electric consumption is ",totalkwh)
-            print(pubscons,"of Public and Private Services Sector and Other consumers preferred single time")
-            print(pubmcons, "of Public and Private Services Sector and Other consumers preferred multi time")
-            print(round(pubscons/tpubcons*100,2), "% percent of Public and Private Services Sector and Other consumers preferred single time")
-            print(round(pubmcons / tpubcons * 100,2),"% percent of Public and Private Services Sector and Other consumers preferred multi time")
-            print("Public and Private Services Sector and Other consumers consumed an average",round(pubkwh/pubdays,2),"kWh per day")
+            consumerdata("Industry : ",indcons,totalcons,indkwh)
+            consumerdata("Public and Private Services Sector and Other : ", tpubcons, totalcons, pubkwh)
+            consumerdata("Residential : ", rezcons, totalcons, rezkwh)
+            consumerdata("Agricultural Activities : ", agricons, totalcons, agrikwh)
+            consumerdata("Lightning : ", lightcons, totalcons, lightkwh)
+            print("Bornova's all electric consumption is = ",totalkwh)
+            print(pubscons,"of Public and Private Services Sector and Other consumers preferred single time.")
+            print(pubmcons, "of Public and Private Services Sector and Other consumers preferred multi time.")
+            print(round(pubscons/tpubcons*100,2), "% percent of Public and Private Services Sector and Other consumers preferred single time.")
+            print(round(pubmcons / tpubcons * 100,2),"% percent of Public and Private Services Sector and Other consumers preferred multi time.")
+            print("Public and Private Services Sector and Other consumers consumed an average",round(pubkwh/pubdays,2),"kWh per day.")
             print("Freeconsumer number is",freenum,"free consumer percantage of industry%",round(freenum/indcons*100,2))
-            print("Max rezidans average consumption consumer is",maxrezconsno,"consumed average of a day is",round(maxrezave,2),"bill is",round(maxrezbill,2))
-            print("Max other bill consuemr no is",maxotherconsno,"bill is ",round(maxotherbill,2),"max average is",round(maxotherave,2))
-            print("GDZ gained",round(totalbill-totalvat-totalect,2),"The municipality gained",round(totalect,2),"The state gained",round(totalvat,2))
-            print("Advantage gainer is",round(adv/(totalcons-lightcons-frezcons)*100,2))
+            print("Maximum rezidans average consumption consumer is = ",maxrezconsno,"Consumed average of a day is = ",round(maxrezave,2),"Bill is = ",round(maxrezbill,2))
+            print("Maximum other bill consumer no is = ",maxotherconsno,"bill is = ",round(maxotherbill,2),"max average is",round(maxotherave,2))
+            print("GDZ gained = ",round(totalbill-totalvat-totalect,2),"The municipality gained",round(totalect,2),"The state gained",round(totalvat,2))
+            print("Advantage gainer is = ",round(adv/(totalcons-lightcons-frezcons)*100,2))
             break
-        constype = input("Please enter the consumer type") #consumer type inputu
+        constype = input("Please enter the consumer type : ") #consumer type inputu
         while constype not in ["I","i","P","p","R","r","A","a","L","l"]:
-            constype = input("Please enter the consumer type")
+            constype = input("Please enter the consumer type : ")
         """
-        Consumer type'a göre veri girişi, çıktı basımı ve istatistik bölümü için veri tutma işlemleri
+        Data entry, output printing and data retention processes for the statistics section according to consumer type.
         """
         if constype == "I" or constype == "i":
             SMtype = singmulti()
             dayu, peaku, nightu, daynum, freecons,totalu = reader()
-            print("Consumer no",consno)
-            print("Consumer type is Industry")
+            print("Consumer No = ",consno)
+            print("Consumer type is Industry.")
             usage,bill,average,nowect,nowvat,nowadv=industry(dayu, peaku, nightu, daynum, SMtype)
             indcons+=1
             indkwh+=usage
@@ -300,8 +301,8 @@ def main():
         elif constype == "P" or constype == "p":
             SMtype = singmulti()
             dayu, peaku, nightu, daynum, freecons,totalu = reader()
-            print("Consumer no",consno)
-            print("Consumer type is Public and Private Services Sector and Other")
+            print("Consumer No = ",consno)
+            print("Consumer type is Public and Private Services Sector and Other.")
             usage,bill,average,nowect,nowvat,nowadv=public(dayu, peaku, nightu, daynum, SMtype)
             if SMtype=="S":
                 pubscons+=1
@@ -319,18 +320,18 @@ def main():
             if nowadv:
                 adv+=1
         elif constype == "R" or constype == "r":
-            family = input("Are you Family veterans")
+            family = input("Are you a family of martyrs or veterans? (Y or N) : ")
             if family == "Y" or family == "y":
                 dayu, peaku, nightu, daynum, freecons,totalu = reader()
-                print("Consumer no", consno)
-                print("Consumer type is Residential (family of martyrs and veterans)")
+                print("Consumer No = ", consno)
+                print("Consumer type is Residential (family of martyrs and veterans).")
                 usage,bill,average,nowect,nowvat=residential(dayu, peaku, nightu, daynum, "", True)
                 frezcons+=1
             elif family == "N" or family == "n":
                 SMtype = singmulti()
                 dayu, peaku, nightu, daynum, freecons,totalu = reader()
-                print("Consumer no", consno)
-                print("Consumer type is Residential")
+                print("Consumer No = ", consno)
+                print("Consumer type is Residential.")
                 usage,bill,average,nowect,nowvat,nowadv=residential(dayu, peaku, nightu, daynum, SMtype, False)
                 if nowadv:
                     adv += 1
@@ -346,8 +347,8 @@ def main():
         elif constype == "A" or constype == "a":
             SMtype = singmulti()
             dayu, peaku, nightu, daynum, freecons,totalu = reader()
-            print("Consumer no", consno)
-            print("Consumer type is Agricultural Activities")
+            print("Consumer No = ", consno)
+            print("Consumer type is Agricultural Activities.")
             usage,bill,average,nowect,nowvat,nowadv=agricultural(dayu, peaku, nightu, daynum, SMtype)
             totalect += nowect
             totalvat += nowvat
@@ -362,8 +363,8 @@ def main():
                 adv+=1
         else:
             dayu, peaku, nightu, daynum, freecons,totalu = reader()
-            print("Consumer no", consno)
-            print("Consumer type is Lightning")
+            print("Consumer No = ", consno)
+            print("Consumer type is Lightning.")
             usage,bill,average,nowect,nowvat=lightning(dayu, peaku, nightu, daynum)
             lightcons+=1
             lightkwh+=usage
@@ -375,7 +376,7 @@ def main():
                 maxotherconsno=consno
                 maxotherave=average
         if freecons:
-            print("Total usage is ",totalu,"Consumer is Free")
+            print("Total usage is =  ",totalu,"Consumer is Free.")
         else:
-            print("Total usage is ", totalu, "Consumer is not free")
+            print("Total usage is = ", totalu, "Consumer is not Free.")
 main()
