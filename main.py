@@ -34,17 +34,17 @@ The advantage function is about the difference between the types and consumer ad
 def advantages(Sbill,Mbill,choose):
     if choose=="S":
         if Sbill<Mbill:
-            print("Difference between Single-time type and Multi-time type =", round(Sbill - Mbill, 2),"The consumer chose the advantageous type ")
+            print("Difference between Single-time type and Multi-time type =", round(Sbill - Mbill, 2),"The consumer choosed the advantageous type. ")
             return True
         else:
-            print("Difference between Single-time type and Multi-time type =", round(Sbill - Mbill, 2),"The consumer chose the disadvantageous type ")
+            print("Difference between Single-time type and Multi-time type =", round(Sbill - Mbill, 2),"The consumer choosed the disadvantageous type. ")
             return False
     else:
         if Sbill>Mbill:
-            print("Difference between Single-time type and Multi-time type =", round(Sbill - Mbill, 2),"The consumer chose the disadvantageous type ")
+            print("Difference between Single-time type and Multi-time type =", round(Sbill - Mbill, 2),"The consumer choosed the disadvantageous type. ")
             return False
         else:
-            print("Difference between Single-time type and Multi-time type =", round(Sbill - Mbill, 2),"The consumer chose the advantageous type ")
+            print("Difference between Single-time type and Multi-time type =", round(Sbill - Mbill, 2),"The consumer choosed the advantageous type. ")
             return True
 """
 The five functions below are designed to make separate bill calculations for each sector.
