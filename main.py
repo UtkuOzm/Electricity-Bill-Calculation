@@ -299,7 +299,6 @@ def main():
                 maxotherbill=bill
                 maxotherconsno=consno
                 maxotherave=average
-
             if nowadv:
                 adv+=1
         elif constype == "R" or constype == "r":
