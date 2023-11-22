@@ -358,7 +358,7 @@ def main():
                 maxotherconsno=consno
                 maxotherave=average
         if freecons:
-            print("Total usage is =",totalu,"kWhConsumer is Free.")
+            print("Total usage is =",totalu,"kWh Consumer is Free.")
         else:
-            print("Total usage is =", totalu, "Consumer is not Free.")
+            print("Total usage is =", totalu, "kWh Consumer is not Free.")
 main()
