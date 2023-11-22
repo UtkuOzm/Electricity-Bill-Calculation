@@ -28,7 +28,24 @@ def printer(dayu,peaku,nightu,totalu,totalufee,ECT,VAT,bill):
     print("Total usage TL without tax = ", round(totalufee,2))
     print("ECT is = ", round(ECT,2),"TL", "VAT is = ", round(VAT,2),"TL")
     print("Bill is = ", round(bill,2),"TL")
-
+"""
+The advantage function is about the difference between the types and consumer advantageous situation
+"""
+def advantages(Sbill,Mbill,choose):
+    if choose=="S":
+        if Sbill<Mbill:
+            print("Difference between Single-time type and Multi-time type =", round(Sbill - Mbill, 2),"The consumer chose the advantageous type ")
+            return True
+        else:
+            print("Difference between Single-time type and Multi-time type =", round(Sbill - Mbill, 2),"The consumer chose the disadvantageous type ")
+            return False
+    else:
+        if Sbill>Mbill:
+            print("Difference between Single-time type and Multi-time type =", round(Sbill - Mbill, 2),"The consumer chose the disadvantageous type ")
+            return False
+        else:
+            print("Difference between Single-time type and Multi-time type =", round(Sbill - Mbill, 2),"The consumer chose the advantageous type ")
+            return True
 """
 The five functions below are designed to make separate bill calculations for each sector.
 For readability we used the common variables.
@@ -48,20 +65,12 @@ def industry(dayu, peaku, nightu, daynum, SM):
     if SM == 'S':
         VAT = Sbill-(Stotalufee+SECT+disturbfee)
         printer(dayu,peaku,nightu,totalu,Stotalufee,SECT,VAT,Sbill)
-        print("Difference between this type and other type = ", round(Sbill - Mbill,2))
-        if Sbill > Mbill:
-            advantage = False
-        else:
-            advantage = True
+        advantage=advantages(Sbill,Mbill,"S")
         return totalu, Sbill, totalu / daynum, SECT, VAT, advantage
     else:
         VAT = Mbill-(Mtotalufee+SECT+disturbfee)
         printer(dayu,peaku,nightu,totalu,Mtotalufee,SECT,VAT,Mbill)
-        print("Difference between this type and other type = ", round(Mbill - Sbill,2))
-        if Sbill > Mbill:
-            advantage = True
-        else:
-            advantage = False
+        advantage=advantages(Sbill,Mbill,"M")
         return totalu, Mbill, totalu / daynum, MECT, VAT, advantage
 
 
@@ -81,20 +90,12 @@ def public(dayu, peaku, nightu, daynum, SM):
     if SM == "S":
         VAT = Sbill-(Stotalufee+SECT+disturbfee)
         printer(dayu,peaku,nightu,totalu,Stotalufee,SECT,VAT,Sbill)
-        print("Difference between this type and other type = ", round(Sbill - Mbill,2))
-        if Sbill > Mbill:
-            advantage = False
-        else:
-            advantage = True
+        advantage=advantages(Sbill,Mbill,"S")
         return totalu, Sbill, totalu / daynum, SECT, VAT, advantage
     else:
         VAT = Mbill-(Mtotalufee+SECT+disturbfee)
         printer(dayu,peaku,nightu,totalu,Mtotalufee,MECT,VAT,Mbill)
-        print("Difference between this type and other type = ", round(Mbill - Sbill,2))
-        if Sbill > Mbill:
-            advantage = True
-        else:
-            advantage = False
+        advantage=advantages(Sbill,Mbill,"M")
         return totalu, Mbill, totalu / daynum, MECT, VAT, advantage
 
 #The variable 'fam' refers to family of veterans and martrys.
@@ -119,21 +120,13 @@ def residential(dayu, peaku, nightu, daynum, SM, fam):
         VAT = Sbill-(Stotalufee+SECT+disturbfee)
         printer(dayu,peaku,nightu,totalu,Stotalufee,SECT,VAT,Sbill)
         if SM == "S":
-            if Sbill > Mbill:
-                advantage = False
-            else:
-                advantage = True
-            print("Difference between this type and other type = ", round(Sbill - Mbill,2))
+            advantage = advantages(Sbill, Mbill, "S")
             return totalu, Sbill, totalu / daynum, SECT, VAT, advantage
         return totalu, Sbill, totalu / daynum, SECT, VAT
     else:
         VAT = Mbill-(Mtotalufee+SECT+disturbfee)
         printer(dayu,peaku,nightu,totalu,Mtotalufee,MECT,VAT,Mbill)
-        print("Difference between this type and other type = ", round(Mbill - Sbill,2))
-        if Sbill > Mbill:
-            advantage = True
-        else:
-            advantage = False
+        advantage=advantages(Sbill,Mbill,"M")
         return totalu, Mbill, totalu / daynum, MECT, VAT, advantage
 
 
@@ -149,20 +142,12 @@ def agricultural(dayu, peaku, nightu, daynum, SM):
     if SM == 'S':
         VAT = Sbill-(Stotalufee+SECT+disturbfee)
         printer(dayu,peaku,nightu,totalu,Stotalufee,SECT,VAT,Sbill)
-        print("Difference between this type and other type = ", round(Sbill - Mbill,2))
-        if Sbill > Mbill:
-            advantage = False
-        else:
-            advantage = True
+        advantage=advantages(Sbill,Mbill,"S")
         return totalu, Sbill, totalu / daynum, SECT, VAT, advantage
     else:
         VAT = Mbill-(Mtotalufee+SECT+disturbfee)
         printer(dayu,peaku,nightu,totalu,Mtotalufee,MECT,VAT,Mbill)
-        print("Difference between this type and other type = ", round(Mbill - Sbill,2))
-        if Sbill > Mbill:
-            advantage = True
-        else:
-            advantage = False
+        advantage=advantages(Sbill,Mbill,"M")
         return totalu, Mbill, totalu / daynum, MECT, VAT, advantage
 
 
@@ -219,7 +204,7 @@ def reader():
         daynumber=int(input("Enter the number of days electricity was consumed (bigger than 0): "))
     totalamoyear = int(input("Enter total amount of electricity consumed in a year (bigger than 0): "))
     while totalamoyear<0:
-        totalamoyear=int(input("Enter total amount of electricity consumed in a year : "))
+        totalamoyear=int(input("Enter total amount of electricity consumed in a year (bigger than 0): "))
     if totalamoyear+curday - preday+ curpeak - prepeak+curnight - prenight > 1000:
         freecons = True
     else:
@@ -238,7 +223,7 @@ def main():
     pubscons,pubmcons=0,0 #Number of people choosing single and multi in Public and Private Services Sector and Other.
     frezcons=0 #Number of families of martyrs and veterans.
     indkwh, pubkwh, rezkwh, agrikwh, lightkwh = 0, 0, 0, 0, 0 #Amount of electricity consumed by sectors.
-    Industryhighusers = 0 #Number of Free consumers
+    Industryhighusers = 0 #Number of Industry users of higher than 10000 kWh or 100000TL bill
     maxrezconsno,maxotherconsno=0,0#Data of Residence and Other users whose maximum statistics are requested.
     maxrezbill,maxotherbill=0,0
     maxrezave,maxotherave=0,0
@@ -304,7 +289,7 @@ def main():
             if SMtype=="S":
                 pubscons+=1
             else:
-                pubmcons+=0
+                pubmcons+=1
             pubkwh+=usage
             pubdays+=daynum
             totalect += nowect
