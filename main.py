@@ -25,27 +25,27 @@ def printer(dayu,peaku,nightu,totalu,totalufee,ECT,VAT,bill):
     print("Peak period Usage (kWh) = ", peaku)
     print("Night period Usage (kWh) = ", nightu)
     print("Total Usage (kWh) = ", totalu)
-    print("Total usage TL without tax = ", round(totalufee,2))
-    print("ECT is = ", round(ECT,2),"TL", "VAT is = ", round(VAT,2),"TL")
-    print("Bill is = ", round(bill,2),"TL")
+    print("Total usage TL without tax (TL)= ", round(totalufee,2))
+    print("ECT is (TL)= ", round(ECT,2),"TL", "VAT is (TL)= ", round(VAT,2),"TL")
+    print("Bill is (TL)= ", round(bill,2),"TL")
 """
 The advantage function is about the difference between the types and consumer advantageous situation
 """
 def advantages(Sbill,Mbill,choose):
     if choose=="S":
         if Sbill<Mbill:
-            print("Difference between Single-time type and Multi-time type =", round(Sbill - Mbill, 2),"The consumer choosed the advantageous type. ")
+            print("Difference between Single-time type and Multi-time type (TL)=", round(Sbill - Mbill, 2),"The consumer chose the advantageous type ")
             return True
         else:
-            print("Difference between Single-time type and Multi-time type =", round(Sbill - Mbill, 2),"The consumer choosed the disadvantageous type. ")
+            print("Difference between Single-time type and Multi-time type (TL)=", round(Sbill - Mbill, 2),"The consumer chose the disadvantageous type ")
             return False
     else:
         if Sbill>Mbill:
-            print("Difference between Single-time type and Multi-time type =", round(Sbill - Mbill, 2),"The consumer choosed the disadvantageous type. ")
-            return False
-        else:
-            print("Difference between Single-time type and Multi-time type =", round(Sbill - Mbill, 2),"The consumer choosed the advantageous type. ")
+            print("Difference between Single-time type and Multi-time type (TL)=", round(Sbill - Mbill, 2),"The consumer chose the advantageous type ")
             return True
+        else:
+            print("Difference between Single-time type and Multi-time type (TL)=", round(Sbill - Mbill, 2),"The consumer chose the disadvantageous type ")
+            return False
 """
 The five functions below are designed to make separate bill calculations for each sector.
 For readability we used the common variables.
