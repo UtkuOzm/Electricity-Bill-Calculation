@@ -225,7 +225,7 @@ def main():
     adv=0 #Number of taking advantage users.
     pubdays=0 #Total number of days public users used electricity.
     totalect,totalvat,totalbill=0,0,0 #Total bill amount, VAT and ECT data.
-    pubsave,pubmave=0,0
+    pubsave,pubmave=0,0 #Total Public and Private Services Sector and Other single time and multi time consumers averages
     while True:
         consno = int(input("Please enter the consumer no (Enter 0 for exit tho program) ="))
         while consno<0:
