@@ -261,6 +261,7 @@ def main():
         """
         if constype == "I" or constype == "i":
             SMtype = singmulti()
+
             dayu, peaku, nightu, daynum, totalu = reader()
             print("Consumer No = ",consno)
             print("Consumer type is Industry.")
