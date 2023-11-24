@@ -21,11 +21,11 @@ IAECT, OAECT, RFAAVAT, OAVAT = 1.01, 1.05, 1.1, 1.2
 The printer function is compressed into a single function to increase the readability of outputs printed repeatedly in each sector.
 """
 def printer(dayu,peaku,nightu,totalu,totalufee,ECT,VAT,bill):
-    print("Daytime period Usage (kWh) = ", dayu)
-    print("Peak period Usage (kWh) = ", peaku)
-    print("Night period Usage (kWh) = ", nightu)
+    print("Daytime period usage (kWh) = ", dayu)
+    print("Peak period usage (kWh) = ", peaku)
+    print("Night period usage (kWh) = ", nightu)
     print("Total Usage (kWh) = ", totalu)
-    print("Total usage TL without tax (TL)= ", round(totalufee,2))
+    print("Total usage TL without tax and distribution fee (TL)= ", round(totalufee,2))
     print("ECT is (TL)= ", round(ECT,2),"TL", "VAT is (TL)= ", round(VAT,2),"TL")
     print("Bill is (TL)= ", round(bill,2),"TL")
 """
@@ -166,8 +166,6 @@ It was written to choose Single-time or Multi-time option.
 """
 def singmulti():
     type = input("Enter your type (Single or Multi) (S,s,M,m): ")
-    while type not in "SsMm":
-        type = input("Enter your type (Single or Multi) : ")
     if type == "s" or type == "S":
         type = "S"
         return type
@@ -202,14 +200,10 @@ def reader():
     daynumber = int(input("Enter the number of days electricity was consumed : "))
     while daynumber<0:
         daynumber=int(input("Enter the number of days electricity was consumed (bigger than 0): "))
-    totalamoyear = int(input("Enter total amount of electricity consumed in a year (bigger than 0): "))
+    totalamoyear = int(input("Enter total amount of electricity consumed in a year (kWh)(bigger than 0): "))
     while totalamoyear<0:
-        totalamoyear=int(input("Enter total amount of electricity consumed in a year (bigger than 0): "))
-    if totalamoyear+curday - preday+ curpeak - prepeak+curnight - prenight > 1000:
-        freecons = True
-    else:
-        freecons = False
-    return curday - preday, curpeak - prepeak, curnight - prenight, daynumber, freecons,totalamoyear
+        totalamoyear=int(input("Enter total amount of electricity consumed in a year (kWh)(bigger than 0): "))
+    return curday - preday, curpeak - prepeak, curnight - prenight, daynumber,totalamoyear
 """
 The statistics section was written to reduce the crowding of statistics for each sector.
 """
@@ -219,9 +213,10 @@ def consumerdata(ctype,cons,total,kwh):
     print(ctype,"Total kWh usage is = ",round(kwh,2))
     print(ctype,"Average kWh usage is = ",round(kwh/cons,2))
 def main():
-    indcons, rezcons, agricons, lightcons = 0, 0, 0, 0 #Number of consumers in the sector.
+    indcons, agricons, lightcons = 0, 0, 0 #Number of consumers in the sector.
     pubscons,pubmcons=0,0 #Number of people choosing single and multi in Public and Private Services Sector and Other.
     frezcons=0 #Number of families of martyrs and veterans.
+    nrezcons=0#Number of Non-families of martyrs and veterans residential consumers
     indkwh, pubkwh, rezkwh, agrikwh, lightkwh = 0, 0, 0, 0, 0 #Amount of electricity consumed by sectors.
     Industryhighusers = 0 #Number of Industry users of higher than 10000 kWh or 100000TL bill
     maxrezconsno,maxotherconsno=0,0#Data of Residence and Other users whose maximum statistics are requested.
@@ -230,30 +225,33 @@ def main():
     adv=0 #Number of taking advantage users.
     pubdays=0 #Total number of days public users used electricity.
     totalect,totalvat,totalbill=0,0,0 #Total bill amount, VAT and ECT data.
+    pubsave,pubmave=0,0
     while True:
         consno = int(input("Please enter the consumer no (Enter 0 for exit tho program) ="))
         while consno<0:
             consno = int(input("Please enter the consumer no (Enter 0 for exit tho program) ="))
         if consno == 0:
-            tpubcons = pubscons + pubmcons #Total Public and Private Services Sector and Other consumer number
-            totalcons = indcons + rezcons + agricons + lightcons + tpubcons #total consumer number
+            rezcons=frezcons+nrezcons #Total Residential consumers number
+            tpubcons = pubscons + pubmcons #Total Public and Private Services Sector and Other consumers number
+            totalcons = indcons + rezcons + agricons + lightcons + tpubcons #total consumers number
             totalkwh = indkwh + pubkwh + rezkwh + agrikwh + lightkwh #total consumption kwh number
             consumerdata("Industry : ",indcons,totalcons,indkwh)
             consumerdata("Public and Private Services Sector and Other : ", tpubcons, totalcons, pubkwh)
             consumerdata("Residential : ", rezcons, totalcons, rezkwh)
             consumerdata("Agricultural Activities : ", agricons, totalcons, agrikwh)
             consumerdata("Lightning : ", lightcons, totalcons, lightkwh)
-            print("Bornova's all electric consumption is = ",totalkwh)
+            print("Bornova's all electric consumption is = ",totalkwh,"kWh")
             print(pubscons,"of Public and Private Services Sector and Other consumers preferred single time.")
             print(pubmcons, "of Public and Private Services Sector and Other consumers preferred multi time.")
             print(round(pubscons/tpubcons*100,2), "% percent of Public and Private Services Sector and Other consumers preferred single time.")
             print(round(pubmcons / tpubcons * 100,2),"% percent of Public and Private Services Sector and Other consumers preferred multi time.")
-            print("Public and Private Services Sector and Other consumers consumed an average",round(pubkwh/pubdays,2),"kWh per day.")
-            print("Industry users of higher than 10000 kWh or 100000TL bill  number is",Industryhighusers,"free consumer percantage of industry%",round(Industryhighusers/indcons*100,2))
-            print("Maximum rezidans average consumption consumer no is = ",maxrezconsno,"Consumed average of a day is = ",round(maxrezave,2),"Bill is = ",round(maxrezbill,2))
-            print("Maximum other bill consumer no is = ",maxotherconsno,"bill is = ",round(maxotherbill,2),"max average is",round(maxotherave,2))
+            print("Public and Private Services Sector and Other consumers preferred single time consumed an average",round(pubsave/pubscons,2),"kWh per day.")
+            print("Public and Private Services Sector and Other consumers preferred multi time consumed an average",round(pubmave / pubmcons, 2), "kWh per day.")
+            print("Industry consumers of higher than 10000 kWh or 100000TL bill  number is",Industryhighusers,"These consumers percantage of industry%",round(Industryhighusers/indcons*100,2))
+            print("Maximum rezidans daily average consumption consumer no is = ",maxrezconsno,"Consumed average of a day is = ",round(maxrezave,2),"Bill is = ",round(maxrezbill,2))
+            print("Maximum other bill consumer no is = ",maxotherconsno,"bill is = ",round(maxotherbill,2),"max average daily consumption is",round(maxotherave,2))
             print("GDZ gained = ",round(totalbill-totalvat-totalect,2),"The municipality gained",round(totalect,2),"The state gained",round(totalvat,2))
-            print("Advantage gainer percentage is %",round(adv/(totalcons-lightcons-frezcons)*100,2))
+            print("Advantage gainer consumer's percentage is %",round(adv/(totalcons-lightcons-frezcons)*100,2))
             break
         constype = input("Please enter the consumer type (I,i,P,p,R,r,A,a,L,l): ")
         while constype not in ["I","i","P","p","R","r","A","a","L","l"]:
@@ -263,7 +261,7 @@ def main():
         """
         if constype == "I" or constype == "i":
             SMtype = singmulti()
-            dayu, peaku, nightu, daynum, freecons,totalu = reader()
+            dayu, peaku, nightu, daynum, totalu = reader()
             print("Consumer No = ",consno)
             print("Consumer type is Industry.")
             usage,bill,average,nowect,nowvat,nowadv=industry(dayu, peaku, nightu, daynum, SMtype)
@@ -282,14 +280,16 @@ def main():
                 adv+=1
         elif constype == "P" or constype == "p":
             SMtype = singmulti()
-            dayu, peaku, nightu, daynum, freecons,totalu = reader()
+            dayu, peaku, nightu, daynum, totalu = reader()
             print("Consumer No = ",consno)
             print("Consumer type is Public and Private Services Sector and Other.")
             usage,bill,average,nowect,nowvat,nowadv=public(dayu, peaku, nightu, daynum, SMtype)
             if SMtype=="S":
                 pubscons+=1
+                pubsave+=average
             else:
                 pubmcons+=1
+                pubmave+=average
             pubkwh+=usage
             pubdays+=daynum
             totalect += nowect
@@ -302,22 +302,24 @@ def main():
             if nowadv:
                 adv+=1
         elif constype == "R" or constype == "r":
-            family = input("Are you a family of martyrs or veterans? (Y or N) : ")
+            family = input("Are you a family of martyrs or veterans? (Y,y,N,n) : ")
+            while family not in ["y","Y","N","n"]:
+                family = input("Are you a family of martyrs or veterans? (Y,y,N,n) : ")
             if family == "Y" or family == "y":
-                dayu, peaku, nightu, daynum, freecons,totalu = reader()
+                dayu, peaku, nightu, daynum, totalu = reader()
                 print("Consumer No = ", consno)
                 print("Consumer type is Residential (family of martyrs and veterans).")
                 usage,bill,average,nowect,nowvat=residential(dayu, peaku, nightu, daynum, "", True)
                 frezcons+=1
             elif family == "N" or family == "n":
                 SMtype = singmulti()
-                dayu, peaku, nightu, daynum, freecons,totalu = reader()
+                dayu, peaku, nightu, daynum, totalu = reader()
                 print("Consumer No = ", consno)
                 print("Consumer type is Residential.")
                 usage,bill,average,nowect,nowvat,nowadv=residential(dayu, peaku, nightu, daynum, SMtype, False)
                 if nowadv:
                     adv += 1
-            rezcons+=1
+                nrezcons+=1
             rezkwh+=usage
             totalect += nowect
             totalvat += nowvat
@@ -328,7 +330,7 @@ def main():
                 maxrezave=average
         elif constype == "A" or constype == "a":
             SMtype = singmulti()
-            dayu, peaku, nightu, daynum, freecons,totalu = reader()
+            dayu, peaku, nightu, daynum, totalu = reader()
             print("Consumer No = ", consno)
             print("Consumer type is Agricultural Activities.")
             usage,bill,average,nowect,nowvat,nowadv=agricultural(dayu, peaku, nightu, daynum, SMtype)
@@ -344,7 +346,7 @@ def main():
             if nowadv:
                 adv+=1
         else:
-            dayu, peaku, nightu, daynum, freecons,totalu = reader()
+            dayu, peaku, nightu, daynum, totalu = reader()
             print("Consumer No = ", consno)
             print("Consumer type is Lightning.")
             usage,bill,average,nowect,nowvat=lightning(dayu, peaku, nightu, daynum)
@@ -357,8 +359,8 @@ def main():
                 maxotherbill=bill
                 maxotherconsno=consno
                 maxotherave=average
-        if freecons:
-            print("Total usage is =",totalu,"kWh Consumer is Free.")
+        if totalu+usage>=1000:
+            print("Total usage in this year is =",totalu+usage,"kWh Consumer is Free.")
         else:
-            print("Total usage is =", totalu, "kWh Consumer is not Free.")
+            print("Total usage in this year is =", totalu+usage, "kWh Consumer is not Free.")
 main()
