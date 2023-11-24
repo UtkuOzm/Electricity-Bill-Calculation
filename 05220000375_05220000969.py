@@ -252,6 +252,7 @@ def main():
     maxrezconsno, maxotherconsno = 0, 0  # Data of Residential and Other users whose maximum statistics are requested.
     maxrezbill, maxotherbill = 0, 0
     maxrezave, maxotherave = 0, 0
+    maxothertype=""
     adv = 0  # Number of taking advantage users.
     pubdays = 0  # Total number of days public users used electricity.
     totalect, totalvat, totalbill = 0, 0, 0  # Total bill amount, VAT and ECT data.
@@ -285,7 +286,7 @@ def main():
                   "These consumers percantage of industry%", round(Industryhighusers / indcons * 100, 2))
             print("Maximum rezidans daily average consumption consumer no is = ", maxrezconsno,
                   "Consumed average of a day is = ", round(maxrezave, 2), "Bill is = ", round(maxrezbill, 2))
-            print("Maximum other bill consumer no is = ", maxotherconsno, "bill is = ", round(maxotherbill, 2),
+            print("Maximum other bill consumer no is = ", maxotherconsno,"Consumer type is",maxothertype, "bill is = ", round(maxotherbill, 2),
                   "max average daily consumption is", round(maxotherave, 2))
             print("GDZ gained = ", round(totalbill - totalvat - totalect, 2), "The municipality gained",
                   round(totalect, 2), "The state gained", round(totalvat, 2))
@@ -315,6 +316,7 @@ def main():
                 maxotherbill = bill
                 maxotherconsno = consno
                 maxotherave = average
+                maxothertype= "Industry"
             if nowadv:
                 adv += 1
         elif constype == "P" or constype == "p":
@@ -338,6 +340,7 @@ def main():
                 maxotherbill = bill
                 maxotherconsno = consno
                 maxotherave = average
+                maxothertype= "Public and Private Services Sector and Other"
             if nowadv:
                 adv += 1
         elif constype == "R" or constype == "r":
@@ -382,6 +385,7 @@ def main():
                 maxotherbill = bill
                 maxotherconsno = consno
                 maxotherave = average
+                maxothertype="Agricultural Activities"
             if nowadv:
                 adv += 1
         else:
@@ -398,6 +402,7 @@ def main():
                 maxotherbill = bill
                 maxotherconsno = consno
                 maxotherave = average
+                maxothertype="Lightning"
         if totalu + usage >= 1000:
             print("Total usage in this year is =", totalu + usage, "kWh Consumer is Free.")
         else:
