@@ -219,7 +219,7 @@ def main():
     nrezcons=0#Number of Non-families of martyrs and veterans residential consumers
     indkwh, pubkwh, rezkwh, agrikwh, lightkwh = 0, 0, 0, 0, 0 #Amount of electricity consumed by sectors.
     Industryhighusers = 0 #Number of Industry users of higher than 10000 kWh or 100000TL bill
-    maxrezconsno,maxotherconsno=0,0#Data of Residence and Other users whose maximum statistics are requested.
+    maxrezconsno,maxotherconsno=0,0#Data of Residential and Other users whose maximum statistics are requested.
     maxrezbill,maxotherbill=0,0
     maxrezave,maxotherave=0,0
     adv=0 #Number of taking advantage users.
