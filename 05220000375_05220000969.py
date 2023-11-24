@@ -288,8 +288,8 @@ def main():
                   "Consumed average of a day is = ", round(maxrezave, 2), "Bill is = ", round(maxrezbill, 2))
             print("Maximum other bill consumer no is = ", maxotherconsno,"Consumer type is",maxothertype, "bill is = ", round(maxotherbill, 2),
                   "max average daily consumption is", round(maxotherave, 2))
-            print("GDZ gained = ", round(totalbill - totalvat - totalect, 2), "The municipality gained",
-                  round(totalect, 2), "The state gained", round(totalvat, 2))
+            print("GDZ gained = ", round(totalbill - totalvat - totalect, 2), "TL", "The municipality gained",
+                  round(totalect, 2), "TL", "The state gained", round(totalvat, 2), "TL")
             print("Advantage gainer consumer's percentage is %",
                   round(adv / (totalcons - lightcons - frezcons) * 100, 2))
             break
